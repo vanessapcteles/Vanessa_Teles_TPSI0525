@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Portfólio</title>
+  <!-- Link do Bootstrap (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id ="top">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .jumbotron {
+            background-color: #e9ecef;
+            padding: 2rem 1rem;
+            border-radius: 0.3rem;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }   
+        h1
+        {
+            color: #1f1d1d;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px #adb5bd;
+        }
+        h2
+        {
+            color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        h4
+        {
+            color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        p
+        {
+            color: #343a40;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        p a
+        {
+            color: #007bff;
+            text-decoration: none;
+            text-align: center;
+            font-style: bold;
+        }
+        p a:hover
+        {
+            text-decoration: underline;
+            text-align: center;
+            font-style: bold;
+        }
+        #btnTopo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            line-height: 20px;
+        }
+        
+        /* Dark mode */
+        body.dark-mode {
+            background-color: #212529;
+            color: #f8f9fa !important;
+        }
+
+        /* Títulos e parágrafos */
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h4,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: #f8f9fa !important;
+        }
+
+        /* Cards */
+        body.dark-mode .card {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        /* Jumbotron */
+        body.dark-mode .jumbotron {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        /* Navbar e footer */
+        body.dark-mode .navbar,
+        body.dark-mode footer {
+            background-color: #000 !important;
+        }
+
+    </style>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="#">Meu Portfólio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="#top">Home</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#sobre">Sobre</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#projetos">Projetos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contacto">Contacto</a>
+            </li>
+            <li class="nav-item ms-auto">
+                <button id="toggleMode" class="btn btn-outline-light btn-sm">🌙</button>
+            </li>
+    
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-4">
+        <div id="sobre" class="jumbotron">
+            <h1 class="display-4"><b>Bem-vindo ao Meu Portfólio!</b></h1>
+            <p class="lead">Sou a Vanessa Teles e aqui verás o meu portfólio com os meus projetos </p>
+            <hr class="my-4">
+            <h4>Sobre mim</h4>
+            <p>Tenho gosto por aprender a programar, como hobby faço crossfit e adoro animais :) </p> <!-- Adicione uma breve descrição sobre você -->
+            <p>Explore meu trabalho e sinta-se à vontade para entrar em contato!</p>
+        </div>
+        <div id="projetos" class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <img src="https://picsum.photos/300/200" class="card-img-top" alt="Projeto 1">
+      <div class="card-body text-center">
+        <h5 class="card-title">Projeto 1</h5>
+        <p class="card-text">Breve descrição do projeto</p>
+        <a href="#" class="btn btn-secondary">Ver detalhes</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <img src="https://picsum.photos/300/200" class="card-img-top" alt="Projeto 2">
+      <div class="card-body text-center">
+        <h5 class="card-title">Projeto 2</h5>
+        <p class="card-text">Breve descrição do projeto</p>
+        <a href="#" class="btn btn-secondary">Ver detalhes</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <img src="https://picsum.photos/300/200" class="card-img-top" alt="Projeto 3">
+        <div class="card-body text-center">
+            <h5 class="card-title">Projeto 3</h5>
+            <p class="card-text">Breve descrição do projeto</p>
+            <a href="#" class="btn btn-secondary">Ver detalhes</a>
+        </div>
+    </div>
+  </div>
+</div>
+        </div>
+        <br/><br/>
+            <div class="col-md-12 text-center" id="contacto">
+                <h2>Contacto</h2>
+                <p>Email: vanessa.teles.t0130957@edu.atec.pt
+                <br/>Github: <a href="https://github.com/vanessapcteles" target="_blank">github.com/vanessapcteles</a>
+                </p>
+            </div>
+    </div>
+    <button onclick="topFunction()" id="btnTopo" class="btn btn-secondary">↑</button>
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        &copy; 2024 Meu Portfólio. Todos os direitos reservados.
+    </footer>
+
+
+  <!-- Script do Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Script para o botão de voltar ao topo foi um componente extra --> 
+    <script>
+        // Mostrar/esconder botão conforme o scroll
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            const btn = document.getElementById("btnTopo");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            btn.style.display = "block";
+            } else {
+            btn.style.display = "none";
+            }
+        }
+
+        // Voltar ao topo
+        function topFunction() {
+            document.body.scrollTop = 0; // Safari
+            document.documentElement.scrollTop = 0; // Chrome, Firefox, etc.
+        }
+    </script>
+
+    <script>
+        const toggleBtn = document.getElementById("toggleMode");
+        toggleBtn.addEventListener("click", function() {
+            document.body.classList.toggle("dark-mode");
+
+            // Troca o ícone do botão
+            if (document.body.classList.contains("dark-mode")) {
+            toggleBtn.textContent = "☀️";
+            toggleBtn.classList.remove("btn-outline-light");
+            toggleBtn.classList.add("btn-outline-warning");
+            } else {
+            toggleBtn.textContent = "🌙";
+            toggleBtn.classList.remove("btn-outline-warning");
+            toggleBtn.classList.add("btn-outline-light");
+            }
+        });
+    </script>
+
+</body>
+</html>
