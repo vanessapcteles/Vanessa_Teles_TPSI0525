@@ -1,0 +1,108 @@
+.jumbotron {
+            background-color: #e9ecef;
+            padding: 2rem 1rem;
+            border-radius: 0.3rem;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }   
+        h1
+        {
+            color: #1f1d1d;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px #adb5bd;
+        }
+        h2
+        {
+            color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        h4
+        {
+            color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        p
+        {
+            color: #343a40;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        p a
+        {
+            color: #007bff;
+            text-decoration: none;
+            text-align: center;
+            font-style: bold;
+        }
+        p a:hover
+        {
+            text-decoration: underline;
+            text-align: center;
+            font-style: bold;
+        }
+        #btnTopo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            line-height: 20px;
+        }
+        
+        /* Dark mode */
+        body.dark-mode {
+            background-color: #212529;
+            color: #f8f9fa !important;
+        }
+
+        /* Títulos e parágrafos */
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h4,
+        body.dark-mode p,
+        body.dark-mode a {
+            color: #f8f9fa !important;
+        }
+
+        /* Cards */
+        body.dark-mode .card {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        /* Jumbotron */
+        body.dark-mode .jumbotron {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        /* Navbar e footer */
+        body.dark-mode .navbar,
+        body.dark-mode footer {
+            background-color: #000 !important;
+        }
