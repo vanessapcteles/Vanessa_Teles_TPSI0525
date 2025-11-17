@@ -1,0 +1,127 @@
+{
+  "imposters": [
+    {
+      "port": 3000,
+      "protocol": "http",
+      "name": "API Gestão de Inventário de Produtos",
+      "stubs": [
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/produtos"
+              }
+            },
+            { "matches": { "data": ".*\"quantidade\"\\s*:\\s*-[0-9]+" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 400,
+                "body": "Valor inválido"
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/produtos"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 201,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 123,
+                  "nome": "${jsonpath:/nome}",
+                  "preco": "${jsonpath:/preco}",
+                  "quantidade": "${jsonpath:/quantidade}"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "GET",
+                "path": "/api/produtos"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": [
+                  {
+                    "id": 123,
+                    "nome": "Exemplo",
+                    "preco": 10.00,
+                    "quantidade": 50
+                  }
+                ]
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "PUT",
+                "path": "/api/produtos/\\d+/stock"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 123,
+                  "status": "Stock atualizado com sucesso",
+                  "alteracao_aplicada": "${jsonpath:/alteracao}"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "DELETE",
+                "path": "/api/produtos/\\d+$"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 409,
+                "body": "Stock não é zero, remoção não permitida."
+              }
+            }
+          ]
+        }
+
+      ]
+    }
+  ]
+}

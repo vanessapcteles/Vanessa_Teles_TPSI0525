@@ -1,0 +1,144 @@
+{
+  "imposters": [
+    {
+      "port": 6000,
+      "protocol": "http",
+      "name": "API Gestão de Alunos",
+      "stubs": [
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/alunos"
+              }
+            },
+            { "matches": { "data": ".*\"idade\"\\s*:\\s*[0-9]" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 400,
+                "body": "Idade mínima não atingida"
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/alunos"
+              }
+            },
+            { "matches": { "data": ".*\"curso\"\\s*:\\s*\"Inexistente\"" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 404,
+                "body": "Curso não encontrado"
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/alunos"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 201,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 101,
+                  "nome": "${jsonpath:/nome}",
+                  "idade": "${jsonpath:/idade}",
+                  "curso": "${jsonpath:/curso}"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "GET",
+                "path": "/api/alunos"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": [
+                  {
+                    "id": 100,
+                    "nome": "Aluno Teste",
+                    "idade": 15,
+                    "curso": "Técnico"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "DELETE",
+                "path": "/api/alunos/200"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 403,
+                "body": "Acesso negado: Permissões de administração necessárias."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "^(PUT|DELETE)$",
+                "path": "/api/alunos/\\d+"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "body": {
+                  "id": 101,
+                  "status": "Operação concluída com sucesso"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

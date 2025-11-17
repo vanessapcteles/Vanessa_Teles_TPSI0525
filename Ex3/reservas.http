@@ -1,0 +1,75 @@
+﻿# Ex. 3: API Controlo de Reservas de Hotel
+
+### 1. POST: Adicionar Reserva Válida
+# Espera-se: Status 201 (Created).
+
+POST http://localhost:4000/api/reservas
+Content-Type: application/json
+
+{
+    "cliente": "Vanessa Teles",
+    "checkin": "2026-01-10",
+    "checkout": "2026-01-15",
+    "tipo_quarto": "standard"
+}
+
+### 2. POST: Reserva INVÁLIDA (Datas Inválidas)
+# Regra: checkout (2025-12-20) anterior ao checkin (2025-12-25) → 400.
+# Espera-se: Status 400 (Bad Request).
+
+POST http://localhost:4000/api/reservas
+Content-Type: application/json
+
+{
+    "cliente": "Cliente Erro Data",
+    "checkin": "2025-12-25",
+    "checkout": "2025-12-20", 
+    "tipo_quarto": "standard"
+}
+
+### 3. POST: Reserva INVÁLIDA (Quarto Cheio / Indisponível)
+# Regra: Quarto cheio → 409 (“Sem disponibilidade”). 
+# Simulação: Tipo "suite" devolve 409.
+# Espera-se: Status 409 (Conflict).
+
+POST http://localhost:4000/api/reservas
+Content-Type: application/json
+
+{
+    "cliente": "Cliente Suite",
+    "checkin": "2026-02-01",
+    "checkout": "2026-02-05",
+    "tipo_quarto": "suite"
+}
+
+### 4. GET: Listar todas as reservas
+# Espera-se: Status 200 e a lista de reservas simulada.
+
+GET http://localhost:4000/api/reservas
+
+
+### 5. PUT: Alterar Reserva (Simulação Válida)
+# Endpoint: PUT /api/reservas/{id} 
+# Espera-se: Status 200 (OK).
+
+PUT http://localhost:4000/api/reservas/456
+Content-Type: application/json
+
+{
+    "checkin": "2026-01-12",
+    "checkout": "2026-01-17",
+    "tipo_quarto": "standard"
+}
+
+### 6. DELETE: Cancelar Reserva INVÁLIDA
+# Regra: DELETE não permitido após o checkin. 
+# Simulação: Tentativa de apagar reserva com ID 777.
+# Espera-se: Status 409 (Conflict).
+
+DELETE http://localhost:4000/api/reservas/777
+
+### 7. DELETE: Cancelar Reserva Válida
+# Espera-se: Status 204 (No Content).
+
+DELETE http://localhost:4000/api/reservas/456
+

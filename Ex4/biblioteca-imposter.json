@@ -1,0 +1,146 @@
+{
+  "imposters": [
+    {
+      "port": 5000,
+      "protocol": "http",
+      "name": "API Biblioteca Digital",
+      "stubs": [
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/livros"
+              }
+            },
+            { "equals": { "data": ".*\"titulo\"\\s*:\\s*\"\"" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 400,
+                "body": "Título não pode ser vazio."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/livros"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 201,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 301,
+                  "titulo": "${jsonpath:/titulo}",
+                  "autor": "${jsonpath:/autor}",
+                  "status": "Disponível"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "GET",
+                "path": "/api/livros"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": [
+                  {
+                    "id": 301,
+                    "titulo": "O Livro Disponível",
+                    "autor": "Mountebank",
+                    "status": "Disponível"
+                  },
+                  {
+                    "id": 302,
+                    "titulo": "O Livro Emprestado",
+                    "autor": "Mountebank",
+                    "status": "Emprestado"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "PUT",
+                "path": "/api/livros/302/emprestar"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 409,
+                "body": "Livro já está emprestado. Não pode ser emprestado novamente."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "DELETE",
+                "path": "/api/livros/302"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 409,
+                "body": "Livro está emprestado. Remoção não permitida."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "^(PUT|DELETE|POST)$",
+                "path": "/api/livros/\\d+"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "body": { "status": "Operação concluída com sucesso" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

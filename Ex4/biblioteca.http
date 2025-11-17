@@ -1,0 +1,58 @@
+﻿# Ex. 4: API Biblioteca Digital (Porta 5000)
+
+### 1. POST: Adicionar Livro Válido
+# Espera-se: Status 201 (Created).
+
+POST http://localhost:5000/api/livros
+Content-Type: application/json
+
+{
+    "titulo": "O Segredo da Simulação",
+    "autor": "Vanessa Teles"
+}
+
+### 2. POST: Livro INVÁLIDO (Título Vazio)
+# Regra: Título vazio → 400.
+# Espera-se: Status 400 (Bad Request).
+
+POST http://localhost:5000/api/livros
+Content-Type: application/json
+
+{
+    "titulo": "",
+    "autor": "Autor Vazio"
+}
+
+### 3. GET: Listar todos os livros
+# Espera-se: Status 200 e a lista de livros simulada (inclui um livro Emprestado: ID 302).
+
+GET http://localhost:5000/api/livros
+
+### 4. PUT: Emprestar Livro INVÁLIDO
+# Regra: Livro Emprestado (ID 302) não pode ser emprestado novamente → 409.
+# Espera-se: Status 409 (Conflict).
+
+PUT http://localhost:5000/api/livros/302/emprestar
+Content-Type: application/json
+
+
+### 5. PUT: Devolver Livro Válido
+# Simulação de devolver o livro 302.
+# Espera-se: Status 200 (OK).
+
+PUT http://localhost:5000/api/livros/302/devolver
+Content-Type: application/json
+
+### 6. DELETE: Remover Livro INVÁLIDO
+# Regra: DELETE apenas permitido se o livro não estiver emprestado.
+# Simulação: Tentativa de apagar o livro 302 (que está Emprestado no GET).
+# Espera-se: Status 409 (Conflict).
+
+DELETE http://localhost:5000/api/livros/302
+
+### 7. DELETE: Remover Livro Válido
+# Simulação: Apagar o livro 301.
+# Espera-se: Status 200 (OK).
+
+DELETE http://localhost:5000/api/livros/301
+

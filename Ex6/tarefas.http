@@ -1,0 +1,54 @@
+﻿# Ex. 6: API Gestão de Tarefas (Porta 8000)
+
+### 1. POST: Adicionar Tarefa Válida
+# Espera-se: Status 201 (Created).
+
+POST http://localhost:8000/api/tarefas
+Content-Type: application/json
+
+{
+    "titulo": "Preparar Relatório Mensal",
+    "descricao": "Recolher dados e finalizar slides."
+}
+
+### 2. POST: Tarefa INVÁLIDA (Título Vazio)
+# Regra: Título vazio → 400.
+# Espera-se: Status 400 (Bad Request).
+
+POST http://localhost:8000/api/tarefas
+Content-Type: application/json
+
+{
+    "titulo": "",
+    "descricao": "Esta tarefa não deve ser criada."
+}
+
+### 3. GET: Listar todas as tarefas
+# Espera-se: Status 200 e a lista simulada (com 601: pendente e 602: concluída).
+
+GET http://localhost:8000/api/tarefas
+
+
+### 4. PUT: Alterar Estado da Tarefa (Válido)
+# Altera o estado da tarefa 601 para "concluída".
+# Espera-se: Status 200 (OK).
+
+PUT http://localhost:8000/api/tarefas/601
+Content-Type: application/json
+
+{
+    "estado": "concluída"
+}
+
+### 5. DELETE: Remover Tarefa INVÁLIDA
+# Regra: DELETE apenas possível se a tarefa estiver concluída.
+# Simulação: Tentativa de apagar a tarefa 601 (que está Pendente, antes do PUT).
+# Espera-se: Status 409 (Conflict).
+
+DELETE http://localhost:8000/api/tarefas/601
+
+### 6. DELETE: Remover Tarefa Válida
+# Simulação: Apagar a tarefa 602 (que está Concluída).
+# Espera-se: Status 200 (OK).
+
+DELETE http://localhost:8000/api/tarefas/602

@@ -1,0 +1,63 @@
+﻿# Ex. 5: API Gestão de Funcionários (Porta 7000)
+
+### 1. POST: Adicionar Funcionário Válido
+# Espera-se: Status 201 (Created).
+
+POST http://localhost:7000/api/funcionarios
+Content-Type: application/json
+
+{
+    "nome": "Maria Pereira",
+    "cargo": "Analista",
+    "salario": 1250
+}
+
+### 2. POST: Funcionário INVÁLIDO (Salário Mínimo)
+# Regra: Salário inferior a 1000 → 400.
+# Espera-se: Status 400 (Bad Request).
+
+POST http://localhost:7000/api/funcionarios
+Content-Type: application/json
+
+{
+    "nome": "João Estagiário",
+    "cargo": "Estagiário",
+    "salario": 950
+}
+
+### 3. GET: Listar todos os funcionários
+# Espera-se: Status 200 e a lista simulada.
+
+GET http://localhost:7000/api/funcionarios
+
+
+### 4. GET: Detalhes de Funcionário INVÁLIDO (Não Autorizado)
+# Regra: Acesso sem login (simulação para ID 999) → 401.
+# Espera-se: Status 401 (Unauthorized).
+
+GET http://localhost:7000/api/funcionarios/999
+
+
+### 5. PUT: Atualizar Funcionário (Válido)
+# Espera-se: Status 201 (OK).
+
+PUT http://localhost:7000/api/funcionarios/501
+Content-Type: application/json
+
+{
+    "cargo": "Senior",
+    "salario": 1800
+}
+
+### 6. DELETE: Remover Funcionário INVÁLIDO
+# Regra: Funcionário com projetos ativos → 409.
+# Simulação: Tentativa de apagar o funcionário 502.
+# Espera-se: Status 409 (Conflict).
+
+DELETE http://localhost:7000/api/funcionarios/502
+
+### 7. DELETE: Remover Funcionário Válido
+# Espera-se: Status 201 (OK).
+
+DELETE http://localhost:7000/api/funcionarios/501
+

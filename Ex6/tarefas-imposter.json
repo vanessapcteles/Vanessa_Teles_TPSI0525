@@ -1,0 +1,130 @@
+{
+  "imposters": [
+    {
+      "port": 8000,
+      "protocol": "http",
+      "name": "API Gestão de Tarefas",
+      "stubs": [
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/tarefas"
+              }
+            },
+            { "matches": { "data": ".*\"titulo\"\\s*:\\s*\"\"" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 400,
+                "body": "Título não pode ser vazio."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/tarefas"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 201,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 601,
+                  "titulo": "${jsonpath:/titulo}",
+                  "descricao": "${jsonpath:/descricao}",
+                  "estado": "pendente"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "GET",
+                "path": "/api/tarefas.*"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": [
+                  {
+                    "id": 601,
+                    "titulo": "Tarefa Pendente",
+                    "descricao": "Por fazer",
+                    "estado": "pendente"
+                  },
+                  {
+                    "id": 602,
+                    "titulo": "Tarefa Concluída",
+                    "descricao": "Completa",
+                    "estado": "concluída"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "DELETE",
+                "path": "/api/tarefas/601"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 409,
+                "body": "Tarefa está pendente. Eliminação não permitida."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "^(PUT|DELETE)$",
+                "path": "/api/tarefas/\\d+"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "body": {
+                  "id": 602,
+                  "status": "Operação concluída com sucesso"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+﻿# Ex. 2: API Gestão de Inventário de Produtos
+
+### 1. POST: Adicionar Produto Válido
+# Espera-se: Status 201 (Created) e o objeto do produto.
+
+POST http://localhost:3000/api/produtos
+Content-Type: application/json
+
+{
+    "nome": "Monitor 27 Polegadas",
+    "preco": 199.99,
+    "quantidade": 75
+}
+
+### 2. POST: Adicionar Produto INVÁLIDO
+# Regra: Quantidade negativa → 400 (“Valor inválido”).
+# Espera-se: Status 400 (Bad Request) e o corpo de erro.
+
+POST http://localhost:3000/api/produtos
+Content-Type: application/json
+
+{
+    "nome": "Produto Defeituoso",
+    "preco": 50.00,
+    "quantidade": -5 
+}
+
+
+### 3. GET: Listar todos os produtos
+# Endpoint: GET /api/produtos
+# Espera-se: Status 200 e a lista de produtos simulada.
+
+GET http://localhost:3000/api/produtos
+
+### 4. PUT: Atualizar Stock (Válido)
+# Endpoint: /api/produtos/{ID}/stock [cite: 22]
+# Espera-se: Status 200 e confirmação de alteração.
+
+PUT http://localhost:3000/api/produtos/123/stock
+Content-Type: application/json
+
+{
+    "alteracao": -10 
+}
+
+### 5. DELETE: Remover Produto (Falha - Stock > 0)
+# Regra: DELETE apenas se o stock for zero[cite: 29].
+# Espera-se: Status 409 e mensagem de erro.
+
+DELETE http://localhost:3000/api/produtos/123
+
+

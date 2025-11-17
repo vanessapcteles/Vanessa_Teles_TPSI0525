@@ -1,0 +1,161 @@
+{
+  "imposters": [
+    {
+      "port": 4000,
+      "protocol": "http",
+      "name": "API Controlo de Reservas de Hotel",
+      "stubs": [
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/reservas"
+              }
+            },
+            { "matches": { "data": ".*\"tipo_quarto\"\\s*:\\s*\"suite\"" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 409,
+                "body": "Sem disponibilidade"
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/reservas"
+              }
+            },
+            { "matches": { "data": ".*\"checkin\"\\s*:\\s*\"2025-12-25\".*\"checkout\"\\s*:\\s*\"2025-12-20\"" } }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 400,
+                "body": "Data de checkout anterior ao checkin"
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "POST",
+                "path": "/api/reservas"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 201,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 456,
+                  "cliente": "${jsonpath:/cliente}",
+                  "checkin": "${jsonpath:/checkin}",
+                  "checkout": "${jsonpath:/checkout}",
+                  "tipo_quarto": "${jsonpath:/tipo_quarto}"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "GET",
+                "path": "/api/reservas"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": [
+                  {
+                    "id": 456,
+                    "cliente": "Mountebank User",
+                    "checkin": "2026-01-10",
+                    "checkout": "2026-01-15",
+                    "tipo_quarto": "standard"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "PUT",
+                "path": "/api/reservas/\\d+"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 200,
+                "headers": { "Content-Type": "application/json" },
+                "body": {
+                  "id": 456,
+                  "status": "Reserva atualizada com sucesso"
+                }
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "equals": {
+                "method": "DELETE",
+                "path": "/api/reservas/777"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "statusCode": 409,
+                "body": "O checkin já foi efetuado. Cancelamento não permitido."
+              }
+            }
+          ]
+        },
+
+        {
+          "predicates": [
+            {
+              "matches": {
+                "method": "DELETE",
+                "path": "/api/reservas/\\d+"
+              }
+            }
+          ],
+          "responses": [
+            { "is": { "statusCode": 204 } }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+﻿# Ex. 1: API Gestão de Alunos (Porta 6000)
+
+### 1. POST: Adicionar Aluno Válido
+# Espera-se: Status 201 (Created).
+
+POST http://localhost:6000/api/alunos
+Content-Type: application/json
+
+{
+    "nome": "João Silva",
+    "idade": 16,
+    "curso": "Técnico de Redes"
+}
+
+### 2. POST: Aluno INVÁLIDO (Idade Mínima)
+# Regra: Idades inferiores a 10 → 400.
+# Espera-se: Status 400 (Bad Request).
+
+POST http://localhost:6000/api/alunos
+Content-Type: application/json
+
+{
+    "nome": "Maria Criança",
+    "idade": 9,
+    "curso": "Ensino Básico"
+}
+
+### 3. POST: Aluno INVÁLIDO (Curso Inexistente)
+# Regra: Curso inexistente → 404.
+# Espera-se: Status 404 (Not Found).
+
+POST http://localhost:6000/api/alunos
+Content-Type: application/json
+
+{
+    "nome": "Pedro Dúvida",
+    "idade": 18,
+    "curso": "Inexistente"
+}
+
+### 4. GET: Listar todos os alunos
+# Espera-se: Status 200 e a lista de alunos simulada.
+
+GET http://localhost:6000/api/alunos
+
+
+### 5. PUT: Atualizar Aluno (Simulação Válida)
+# Endpoint: PUT /api/alunos/{id}
+# Espera-se: Status 200 (OK).
+
+PUT http://localhost:6000/api/alunos/101
+Content-Type: application/json
+
+{
+    "nome": "João Silva - Atualizado",
+    "idade": 17,
+    "curso": "Técnico de Redes"
+}
+
+### 6. DELETE: Remover Aluno INVÁLIDO (Permissão de Administrador)
+# Regra: DELETE só permitido com permissões de administração.
+# Simulação: Tentativa de apagar o aluno 200.
+# Espera-se: Status 403 (Forbidden).
+
+DELETE http://localhost:6000/api/alunos/200
+
+### 7. DELETE: Remover Aluno Válido
+# Espera-se: Status 200 (OK).
+
+DELETE http://localhost:6000/api/alunos/101
