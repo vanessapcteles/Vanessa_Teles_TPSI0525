@@ -1,0 +1,111 @@
+### Exercício 1: GET /api/marcas
+# Valida se obtém a lista de marcas (Status 200)
+GET http://localhost:4545/api/marcas
+
+### Exercício 2: GET /api/cars com query específica
+# Valida se obtém o carro Toyota (Status 200, results não vazio)
+GET http://localhost:4545/api/cars?brand=Toyota
+
+### Exercício 3: GET /api/cars sem query
+# Valida se obtém a lista vazia (Status 200, results = [])
+GET http://localhost:4545/api/cars
+
+### Exercício 4: POST /api/login (Sucesso)
+# Status esperado: 200. Token presente.
+POST http://localhost:4545/api/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "secret"
+}
+
+### Exercício 5: POST /api/login (Falha Genérica)
+POST http://localhost:4545/api/login
+Content-Type: application/json
+
+{
+    "username": "joao",
+    "password": "errada"
+}
+
+### Exercício 6: POST /api/users (Email Duplicado/Conflito)
+POST http://localhost:4545/api/users
+Content-Type: application/json
+
+{
+    "name": "Utilizador Duplicado",
+    "email": "exists@example.com", 
+    "age": 30
+}
+
+### Exercício 7: POST /api/users (Sucesso)
+POST http://localhost:4545/api/users
+Content-Type: application/json
+
+{
+    "name": "Novo Utilizador",
+    "email": "novo@example.com", 
+    "age": 25
+}
+
+### Exercício 8: POST /api/temperature (Falha - Sem Campo 'value')
+# Status esperado: 400. error: missing_field.
+POST http://localhost:4545/api/temperature
+Content-Type: application/json
+
+{
+    "sensor_id": "temp_01",
+    "unit": "C" 
+}
+
+### Exercício 9: POST /api/temperature (Sucesso - Com Campo 'value')
+# Status esperado: 201. status: created.
+POST http://localhost:4545/api/temperature
+Content-Type: application/json
+
+{
+    "sensor_id": "temp_01",
+    "value": 25.5, 
+    "unit": "C"
+}
+
+### Exercício 10: POST /api/tasks (Título Duplicado/Conflito)
+# Status esperado: 409. error: duplicate_task.
+POST http://localhost:4545/api/tasks
+Content-Type: application/json
+
+{
+    "title": "duplicate",
+    "description": "Simular conflito"
+}
+
+### Exercício 11: POST /api/tasks (Sucesso)
+# Status esperado: 201. Deve ter Location header.
+POST http://localhost:4545/api/tasks
+Content-Type: application/json
+
+{
+    "title": "Comprar pão",
+    "description": "Tarefa normal"
+}
+
+### Exercício 13: GET /api/profile (Falha - Sem Header Authorization)
+# Status esperado: 403 Forbidden.
+GET http://localhost:4545/api/profile
+
+### Exercício 12: GET /api/profile (Sucesso - Com Header Authorization)
+# Status esperado: 200 OK.
+GET http://localhost:4545/api/profile
+Authorization: Bearer valid-token-123
+
+### Exercício 14: POST Bad Content-Type (Qualquer POST sem Content-Type: application/json)
+# Status esperado: 415 Unsupported Media Type.
+POST http://localhost:4545/api/teste-415
+Content-Type: text/plain 
+
+Corpo sem JSON
+
+### Exercício 15: 404 Catch-All
+# Status esperado: 404 Not Found.
+GET http://localhost:4545/api/caminho-inexistente

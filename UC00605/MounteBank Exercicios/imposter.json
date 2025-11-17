@@ -1,9 +1,279 @@
-
-
 {
   "port": 4545,
-  "protocol": "http", 
+  "protocol": "http",
   "stubs": [
+
+    {
+      "name": "E1 - Lista de Marcas (GET /api/marcas)",
+      "predicates": [
+        { "equals": { "method": "GET", "path": "/api/marcas" } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "marcas": ["Toyota", "Audi", "Ford", "Volvo", "Honda"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "E2 - Pesquisa de Carros Específica (GET /api/cars?brand=Toyota)",
+      "predicates": [
+        { "equals": { "method": "GET", "path": "/api/cars" } },
+        { "contains": { "query": { "brand": "Toyota" } } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "brand": "Toyota", "results": [ { "id": 1, "modelo": "Yaris", "preco": 18000 } ] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "E3 - Pesquisa de Carros Genérica (GET /api/cars)",
+      "predicates": [
+        { "equals": { "method": "GET", "path": "/api/cars" } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "results": [] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "E4 - Login Sucesso (deepEquals)",
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/login", "headers": { "Content-Type": "application/json" } } },
+        { "deepEquals": { "body": { "username": "admin", "password": "secret" } } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "status": "ok", "token": "validtoken" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "E5 - Login Falha Genérica (Fallback)",
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/login", "headers": { "Content-Type": "application/json" } } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 401,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "error": "invalid_credentials" }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "E6 - POST Conflito Email (Específico)",
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/users", "headers": { "Content-Type": "application/json" } } },
+        { "contains": { "body": "\"email\":\"exists@example.com\"" } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 409,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "error": "email_exists", "message": "O email já se encontra registado." }
+          }
+        }
+      ]
+    },
+    {
+      "name": "E7 - POST Criar Utilizador Sucesso (Fallback)",
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/users", "headers": { "Content-Type": "application/json" } } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 201,
+            "headers": { "Content-Type": "application/json", "Location": "/api/users/12345" },
+            "body": { "id": "12345", "status": "created", "message": "Utilizador criado com sucesso." }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "E8 - POST Temperatura Falha (Negação/Específico) <-- TEM DE VIR PRIMEIRO",
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/temperature", "headers": { "Content-Type": "application/json" } } },
+        { "not": { "contains": { "body": "\"value\"" } } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "error": "missing_field", "message": "O campo 'value' é obrigatório." }
+          }
+        }
+      ]
+    },
+    {
+      "name": "E9 - POST Temperatura Sucesso (Genérico/Fallback) <-- VEM DEPOIS",
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/temperature", "headers": { "Content-Type": "application/json" } } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 201,
+            "headers": { "Content-Type": "application/json" },
+            "body": { "status": "created", "message": "Medição registada." }
+          }
+        }
+      ]
+    },
+
+{
+  "name": "E10 - POST Tarefa Duplicada",
+  "predicates": [
+    {
+      "equals": {
+        "method": "POST",
+        "path": "/api/tasks",
+        "headers": { "Content-Type": "application/json" }
+      }
+    },
+    {
+      "contains": {
+        "body": "\"title\":\"duplicate\""
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "statusCode": 409,
+        "headers": { "Content-Type": "application/json" },
+        "body": { "error": "duplicate_task", "message": "A tarefa já existe." }
+      }
+    }
+  ]
+},
+
+{
+  "name": "E11 - POST Criar Tarefa Sucesso",
+  "predicates": [
+    {
+      "equals": {
+        "method": "POST",
+        "path": "/api/tasks",
+        "headers": { "Content-Type": "application/json" }
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "statusCode": 201,
+        "headers": { "Content-Type": "application/json", "Location": "/api/tasks/999" },
+        "body": { "id": "999", "status": "created", "message": "Tarefa criada." }
+      }
+    }
+  ]
+},
+
+{
+  "name": "E13 - GET Perfil Proibido (Sem Header) <-- TEM DE VIR PRIMEIRO",
+  "predicates": [
+    { "equals": { "method": "GET", "path": "/api/profile" } },
+    {
+      "not": {
+        "exists": {
+          "headers": { "Authorization": true }
+        }
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "statusCode": 403,
+        "headers": { "Content-Type": "application/json" },
+        "body": { "error": "forbidden", "message": "Autenticação obrigatória." }
+      }
+    }
+  ]
+},
+
+{
+  "name": "E12 - GET Perfil Sucesso (Com Header)",
+  "predicates": [
+    { "equals": { "method": "GET", "path": "/api/profile" } }
+
+  ],
+  "responses": [
+    {
+      "is": {
+        "statusCode": 200,
+        "headers": { "Content-Type": "application/json" },
+        "body": { "name": "Utilizador Autenticado", "role": "admin" }
+      }
+    }
+  ]
+},
+
+{
+  "name": "E14 - POST Content-Type Incorreto",
+  "predicates": [
+    { "equals": { "method": "POST" } }, 
+    {
+      "not": {
+        "equals": {
+          "headers": { "Content-Type": "application/json" }
+        }
+      }
+    }
+  ],
+  "responses": [
+    {
+      "is": {
+        "statusCode": 415,
+        "headers": { "Content-Type": "application/json" },
+        "body": { "error": "unsupported_media_type", "message": "Content-Type deve ser application/json." }
+      }
+    }
+  ]
+},
+
+{
+  "name": "E15 - 404 Catch All",
+  "predicates": [
+    { "exists": { "path": true } } 
+  ],
+  "responses": [
+    {
+      "is": {
+        "statusCode": 404,
+        "headers": { "Content-Type": "application/json" },
+        "body": { "error": "not_found", "message": "O recurso solicitado não existe." }
+      }
+    }
+  ]
+}
+
   ]
 }
 
